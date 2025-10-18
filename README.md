@@ -3,6 +3,13 @@
 
 An AI-powered assistant for viewing and booking events on a Google Calendar. The assistant uses Google Calendar API for scheduling and Gemini (Generative AI) for natural language understanding and conversational responses. The assistant is intentionally restricted to only answer Google Calendar related queries.
 
+## Demo Video :
+
+
+https://github.com/user-attachments/assets/9cb5b150-964c-439f-8b7e-7f820ae8b072
+
+
+
 ## Features
 
 - View available and booked slots for a given date
