@@ -11,5 +11,3 @@ wheels/
 config/
 credentials/
 test.py
-
-*.mp4
