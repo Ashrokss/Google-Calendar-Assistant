@@ -48,7 +48,7 @@ if user_input:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                res = requests.post(f"{API_URL}/chat", json={"message": user_input}, timeout=15)
+                res = requests.post(f"{API_URL}/chat", json={"message": user_input}, timeout=60)
                 if res.status_code == 200:
                     data = res.json()
                     bot_reply = data.get("response", "Unexpected response from server.")
@@ -63,6 +63,7 @@ if user_input:
 
             st.markdown(bot_reply, unsafe_allow_html=True)
             st.session_state.messages.append({"role": "assistant", "content": bot_reply})
+            st.rerun()
 
 # st.divider()
 # Add clear chat button

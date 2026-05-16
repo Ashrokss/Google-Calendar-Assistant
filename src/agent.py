@@ -7,10 +7,11 @@ import re
 
 api_key = Config.GEMINI_API_KEY
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel(model_name="models/gemini-flash-latest")
+
 
 def run_gemini_agent(message: str):
     try:
+        model = genai.GenerativeModel(model_name="models/gemini-flash-lite-latest")
         today_str = datetime.today().strftime("%Y-%m-%d")
 
         # NOTE: This prompt intentionally restricts the assistant to calendar-only behavior.
@@ -45,6 +46,10 @@ def run_gemini_agent(message: str):
         response = model.generate_content(prompt)
         parsed = response.text.strip()
 
+        # If the model returned the refusal message directly, return it immediately
+        if "I can only assist with google calendar related tasks" in parsed:
+            return "I can only assist with google calendar related tasks."
+
         # Extract intent, date, time, title
         intent = re.search(r"intent:\s*(\w+)", parsed)
         date = re.search(r"date:\s*([\d\-]+)", parsed)
@@ -75,7 +80,18 @@ def run_gemini_agent(message: str):
 
         
         elif intent == "chat":
-            chat_res = model.generate_content(message).text.strip()
+            # Re-prompting with context to ensure the chat response is also restricted to calendar tasks
+            chat_prompt = f"""
+            You are a Google Calendar assistant. 
+            The user said: "{message}"
+
+            Strict Guidelines:
+            - Only answer if the request is related to viewing, booking, or managing Google Calendar.
+            - If the user asks 'what can you do?', explain that you can view available slots, book meetings, and clear the calendar.
+            - For any unrelated topics, respond exactly with: "I can only assist with google calendar related tasks."
+            - Keep your response concise and professional.
+            """
+            chat_res = model.generate_content(chat_prompt).text.strip()
             return chat_res
 
         elif intent == "view":

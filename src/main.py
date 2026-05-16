@@ -20,7 +20,7 @@ def get_slots(date: str = None, booked: bool = False):
     """
     if not date:
         date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-    slots = get_available_slots(date, booked_only=booked)
+    slots = get_available_slots(date)
     return {"date": date, "slots": slots}
 
 class BookingRequest(BaseModel):

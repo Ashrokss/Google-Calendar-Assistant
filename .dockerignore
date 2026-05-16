@@ -1,0 +1,7 @@
+.venv
+.git
+__pycache__
+*.pyc
+.env
+# Credentials should usually be mounted, but we'll exclude them from the build for safety
+src/credentials/service_account.json

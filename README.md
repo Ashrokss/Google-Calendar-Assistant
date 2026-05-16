@@ -1,106 +1,101 @@
 
-# Google Calendar Assistant
+# Google Calendar Assistant 📅
 
-An AI-powered assistant for viewing and booking events on a Google Calendar. The assistant uses Google Calendar API for scheduling and Gemini (Generative AI) for natural language understanding and conversational responses. The assistant is intentionally restricted to only answer Google Calendar related queries.
-
-## Demo Video :
-
-
-https://github.com/user-attachments/assets/9cb5b150-964c-439f-8b7e-7f820ae8b072
-
-
-
-## Features
-
-- View available and booked slots for a given date
-- Book 1-hour meetings
-- Clear upcoming events
-- Conversational agent that only responds to calendar-related requests
-
-## Quick Start
-
-Prerequisites
-- Python 3.10+
-- A Google Cloud project with Calendar API enabled
-- A service account JSON key with access to the calendar
-- Gemini API key
-
-## 🛠 Setup Instructions
-
-### 1️⃣ Get Your Google Calendar Credentials
-
-1. Go to https://console.cloud.google.com
-2. Create a new project
-3. Enable Google Calendar API
-4. Create a Service Account
-5. Generate a JSON key and download it as `service_account.json`
-6. Copy the service account email (e.g. `xyz@project.iam.gserviceaccount.com`)
-7. Log in to your Google Calendar
-8. On the left side, under "Other calendars", click `+` → **Create new calendar**
-9. After creating the calendar, go to its Settings
-10. Under "Share with specific people", click **Add people**
-11. Add the service account email and set permission to "Make changes and manage sharing"
-12. Scroll down to "Integrate calendar" and copy the Calendar ID
-
-Use this Calendar ID as your `GOOGLE_CALENDAR_ID` in your config.py
+An AI-powered assistant for viewing and booking events on a Google Calendar. The assistant uses the Google Calendar API for scheduling and Gemini (Generative AI) for natural language understanding and conversational responses. The assistant is intentionally restricted to only answer Google Calendar related queries.
 
 ---
 
-### 2️⃣ Get Your Gemini API Key
+## 🎥 Demo Video
 
-1. Visit https://makersuite.google.com/app/apikey
-2. Click "Get API Key"
-3. Copy the key and paste it in your `.env` file or set it in `config/config.py`
+Check out the Smart Meeting Assistant in action:
+
+<video src="https://github.com/user-attachments/assets/9cb5b150-964c-439f-8b7e-7f820ae8b072" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
 
 ---
 
-## Configuration
+## 🚀 Features
 
-The project reads configuration from `config/config.py`. You can set values via environment variables or edit the config file directly for local testing:
+- **Natural Language Booking:** Book meetings by simply asking the assistant.
+- **Availability Check:** View available and booked slots for any given date.
+- **Event Management:** Clear upcoming events easily.
+- **Context-Aware:** The assistant is restricted to calendar-related queries to ensure accuracy.
 
-- `GOOGLE_CALENDAR_ID` - your calendar id
-- `GEMINI_API_KEY` - your Gemini API key
-- `BACKEND_URL` - backend URL used by the Streamlit app (default: http://localhost:8000)
+---
 
-Place the `service_account.json` file in `src/credentials/service_account.json` or set the `SERVICE_ACCOUNT_FILE` environment variable to its absolute path.
+## 🐳 Docker Setup (Recommended)
 
-## API Endpoints
+Running the project with Docker is the quickest way to get started.
 
-Short list of endpoints:
+### 1. Prerequisites
+- Docker and Docker Compose installed.
+- Google Cloud Service Account JSON (`service_account.json`).
+- Gemini API Key.
 
-- GET / — Health check (backend running)
-- GET /slots — Return available or booked slots for a date
-- POST /book — Book a 1-hour meeting
-- POST /chat — Send a message to the calendar assistant (Gemini-powered)
-
-
-## UV project setup
-
-1. Create a virtual environment and install dependencies:
-
-```powershell
- uv init .
- uv venv
- .venv\Scripts\activate
- uv add -r requirements.txt
+### 2. Configuration
+Create a `.env` file in the root directory:
+```env
+GOOGLE_CALENDAR_ID=your_calendar_id@group.calendar.google.com
+GEMINI_API_KEY=your_gemini_api_key
 ```
-2. Change to the project src directory:
+Place your `service_account.json` in `src/credentials/service_account.json`.
 
+### 3. Run the App
+```bash
+docker-compose up --build
+```
+Once the containers are running:
+- **Frontend:** [http://localhost:8501](http://localhost:8501)
+- **Backend:** [http://localhost:8000](http://localhost:8000)
+
+---
+
+## 🛠 Manual Setup (UV)
+
+If you prefer to run the project locally without Docker:
+
+### 1. Virtual Environment
+```powershell
+uv init .
+uv venv
+.venv\Scripts\activate
+uv add -r requirements.txt
+```
+
+### 2. Start Services
+Open two terminals:
+
+**Terminal 1 (Backend):**
 ```powershell
 cd src
-```
-
-3. Start the FastAPI backend using uvicorn (development, auto-reload enabled):
-
-```powershell
 uvicorn main:app --reload
 ```
 
-4. Start the Streamlit frontend (in another terminal):
-
+**Terminal 2 (Frontend):**
 ```powershell
+cd src
 streamlit run app.py
 ```
 
+---
 
+## 🔑 Credentials Setup
 
+1. **Google Calendar API:**
+   - Enable the API in [Google Cloud Console](https://console.cloud.google.com).
+   - Create a Service Account and download the JSON key as `service_account.json`.
+   - Share your Google Calendar with the Service Account email (Permission: "Make changes and manage sharing").
+   - Copy the Calendar ID from the calendar settings.
+
+2. **Gemini API:**
+   - Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey).
+
+---
+
+## 📡 API Endpoints
+
+- `GET /` — Health check
+- `GET /slots` — View availability
+- `POST /book` — Book a meeting
+- `POST /chat` — Conversational calendar assistant
