@@ -9,7 +9,7 @@ An AI-powered assistant for viewing and booking events on a Google Calendar. The
 
 Check out the Smart Meeting Assistant in action:
 
-<video src="https://github.com/user-attachments/assets/9cb5b150-964c-439f-8b7e-7f820ae8b072" width="100%" controls>
+<video src="./demo.mp4" width="100%" controls>
   Your browser does not support the video tag.
 </video>
 
